@@ -4,8 +4,8 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///parking.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///parking.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -69,5 +69,6 @@ def get_status():
         'entry_time': p.entry_time.strftime('%Y-%m-%d %H:%M:%S')
     } for p in parkings])
 
+# For local development
 if __name__ == '__main__':
     app.run(debug=True)
