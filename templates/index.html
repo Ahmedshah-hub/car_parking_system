@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Car Parking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #22c55e;
+            --accent-color: #f97316;
+            --dark-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .container {
+            padding: 2rem;
+            transform-style: preserve-3d;
+            max-width: 1400px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+        
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease;
+            transform-style: preserve-3d;
+            padding: 2rem 0;
+            background: linear-gradient(to right, #dbeafe, #dcfce7);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #3b82f6, #22c55e, #f97316);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 5s ease infinite;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transform: translateZ(20px);
+        }
+        
+        .form-control {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            background: #ffffff;
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateZ(10px);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, var(--primary-color), #2563eb);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(45deg, var(--accent-color), #ea580c);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px) translateZ(20px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+        
+        .table {
+            color: var(--text-primary);
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            box-shadow: 0 1px 3px var(--shadow-color);
+        }
+        
+        .table thead th {
+            background: #f8fafc;
+            border: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 1rem;
+            transform: translateZ(10px);
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .table tbody tr {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            border-bottom: 1px solid var(--border-color);
+            background: #ffffff;
+        }
+        
+        .table tbody tr:hover {
+            background: #f8fafc;
+            transform: translateZ(20px);
+        }
+        
+        .table td {
+            padding: 1rem;
+            transform: translateZ(5px);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            animation: pulse 2s infinite;
+            color: white;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-parked {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            transform: translateZ(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-title i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+        }
+        
+        .form-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .vehicle-type-icon {
+            margin-right: 0.5rem;
+            transform: translateZ(5px);
+            color: var(--primary-color);
+        }
+        
+        .parking-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            animation: float 3s ease-in-out infinite;
+            color: var(--primary-color);
+        }
+        
+        select.form-control option {
+            background: #ffffff;
+            color: var(--text-primary);
+            padding: 0.5rem;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) translateZ(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0);
+            }
+        }
+        
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .toast {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+        }
+        
+        .toast-header {
+            background: #f8fafc;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 12px 12px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-parking parking-icon"></i> Smart Car Parking System</h1>
+            <p class="lead">Manage your parking lot efficiently with our advanced system</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card p-4 mb-4">
+                    <h3 class="card-title"><i class="fas fa-car-side"></i> Park/Exit Vehicle</h3>
+                    <form id="parkingForm">
+                        <div class="mb-3">
+                            <label class="form-label">Vehicle Number</label>
+                            <input type="text" class="form-control" id="vehicleNumber" required placeholder="Enter vehicle number">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Vehicle Type</label>
+                            <select class="form-control" id="vehicleType">
+                                <option value="Car"><i class="fas fa-car vehicle-type-icon"></i> Car</option>
+                                <option value="Bike"><i class="fas fa-motorcycle vehicle-type-icon"></i> Bike</option>
+                                <option value="Truck"><i class="fas fa-truck vehicle-type-icon"></i> Truck</option>
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary" onclick="parkVehicle()">
+                                <i class="fas fa-car"></i> Park Vehicle
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="exitVehicle()">
+                                <i class="fas fa-sign-out-alt"></i> Exit Vehicle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Current Parking Status</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Vehicle Number</th>
+                                    <th>Type</th>
+                                    <th>Entry Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="parkingTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                This is a notification message.
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize toast
+        const toast = new bootstrap.Toast(document.getElementById('toast'));
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const toastBody = document.querySelector('.toast-body');
+            const toast = document.getElementById('toast');
+            
+            toastBody.textContent = message;
+            toast.className = `toast ${type}`;
+            bootstrap.Toast.getInstance(toast).show();
+        }
+        
+        // Update parking status
+        function updateParkingStatus() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('parkingTable');
+                    table.innerHTML = '';
+                    
+                    data.forEach(vehicle => {
+                        const row = document.createElement('tr');
+                        const icon = vehicle.vehicle_type === 'Car' ? 'fa-car' : 
+                                    vehicle.vehicle_type === 'Bike' ? 'fa-motorcycle' : 'fa-truck';
+                        
+                        row.innerHTML = `
+                            <td>${vehicle.vehicle_number}</td>
+                            <td><i class="fas ${icon} vehicle-type-icon"></i> ${vehicle.vehicle_type}</td>
+                            <td>${vehicle.entry_time}</td>
+                            <td><span class="status-badge status-parked">Parked</span></td>
+                        `;
+                        table.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    showNotification('Error fetching parking status', 'error');
+                });
+        }
+        
+        // Park vehicle
+        function parkVehicle() {
+            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            const vehicleType = document.getElementById('vehicleType').value;
+            
+            if (!vehicleNumber) {
+                showNotification('Please enter vehicle number', 'error');
+                return;
+            }
+            
+            fetch('/api/park', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    vehicle_number: vehicleNumber,
+                    vehicle_type: vehicleType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                } else {
+                    showNotification(data.message);
+                    document.getElementById('vehicleNumber').value = '';
+                    updateParkingStatus();
+                }
+            })
+            .catch(error => {
+                showNotification('Error parking vehicle', 'error');
+            });
+        }
+        
+        // Exit vehicle
+        function exitVehicle() {
+            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            
+            if (!vehicleNumber) {
+                showNotification('Please enter vehicle number', 'error');
+                return;
+            }
+            
+            fetch('/api/exit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    vehicle_number: vehicleNumber
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                } else {
+                    showNotification(data.message);
+                    document.getElementById('vehicleNumber').value = '';
+                    updateParkingStatus();
+                }
+            })
+            .catch(error => {
+                showNotification('Error exiting vehicle', 'error');
+            });
+        }
+        
+        // Update status every 5 seconds
+        setInterval(updateParkingStatus, 5000);
+        
+        // Initial status update
+        updateParkingStatus();
+        
+        // Add 3D effect to cards on mouse move
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+    </script>
+</body>
+</html> 
