@@ -223,32 +223,111 @@
             }
         }
         
-        .theme-toggle {
+        .toggle-container {
             position: fixed;
             top: 1rem;
             right: 1rem;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
             background: var(--card-bg);
+            padding: 0.75rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            width: 160px;
+        }
+
+        .theme-toggle, .lang-toggle {
+            position: relative;
+            background: var(--dark-bg);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: 0.7rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
+            width: 100%;
+            justify-content: flex-start;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
-        .theme-toggle:hover {
+        .theme-toggle:hover, .lang-toggle:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px var(--shadow-color);
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
-        .theme-toggle i {
-            font-size: 1.1rem;
+        .theme-toggle i, .lang-toggle i {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 24px;
+            text-align: center;
+        }
+
+        .theme-toggle:hover i, .lang-toggle:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+ 
+        :root[dir="rtl"] .theme-toggle, 
+        :root[dir="rtl"] .lang-toggle {
+            flex-direction: row-reverse;
+        }
+
+        /* Add responsive styles for toggle buttons */
+        @media (max-width: 768px) {
+            .toggle-container {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                left: auto;
+                width: 160px;
+                border-radius: 16px;
+                padding: 0.75rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .theme-toggle, .lang-toggle {
+                width: 100%;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-container {
+                width: 140px;
+                padding: 0.5rem;
+            }
+
+            .theme-toggle, .lang-toggle {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .theme-toggle i, .lang-toggle i {
+                font-size: 1rem;
+                width: 20px;
+            }
+
+            .container {
+                margin-top: 1rem;
+            }
         }
         
         .card {
@@ -568,42 +647,78 @@
             border-bottom: 1px solid var(--border-color);
             border-radius: 12px 12px 0 0;
         }
+
+        :root[dir="rtl"] {
+            --text-align: right;
+            --float: right;
+            --transform-direction: -1;
+        }
+
+        :root[dir="ltr"] {
+            --text-align: left;
+            --float: left;
+            --transform-direction: 1;
+        }
+
+        body {
+            text-align: var(--text-align);
+        }
+
+        :root[dir="rtl"] .table th,
+        :root[dir="rtl"] .table td {
+            text-align: right;
+        }
+
+        :root[dir="rtl"] .form-label {
+            text-align: right;
+        }
+
+        :root[dir="rtl"] .toast {
+            left: 0;
+            right: auto;
+        }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-sun"></i>
-        <span>Toggle Theme</span>
-    </button>
+    <div class="toggle-container">
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-sun"></i>
+            <span class="theme-text">Toggle Theme</span>
+        </button>
+        <button class="lang-toggle" onclick="toggleLanguage()">
+            <i class="fas fa-language"></i>
+            <span class="lang-text">عربي</span>
+        </button>
+    </div>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-parking parking-icon"></i> Car Parking System</h1>
-            <p class="lead">Manage your parking lot efficiently with our advanced system</p>
+            <h1><i class="fas fa-parking parking-icon"></i> <span class="translate" data-key="title">Car Parking System</span></h1>
+            <p class="lead translate" data-key="subtitle">Manage your parking lot efficiently with our advanced system</p>
         </div>
         
         <div class="row">
             <div class="col-md-4">
                 <div class="card p-4 mb-4">
-                    <h3 class="card-title"><i class="fas fa-car-side"></i> Park/Exit Vehicle</h3>
+                    <h3 class="card-title"><i class="fas fa-car-side"></i> <span class="translate" data-key="parkExitTitle">Park/Exit Vehicle</span></h3>
                     <form id="parkingForm">
                         <div class="mb-3">
-                            <label class="form-label">Vehicle Number</label>
+                            <label class="form-label translate" data-key="vehicleNumber">Vehicle Number</label>
                             <input type="text" class="form-control" id="vehicleNumber" required placeholder="Enter vehicle number">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Vehicle Type</label>
+                            <label class="form-label translate" data-key="vehicleType">Vehicle Type</label>
                             <select class="form-control" id="vehicleType">
-                                <option value="Car"><i class="fas fa-car vehicle-type-icon"></i> Car</option>
-                                <option value="Bike"><i class="fas fa-motorcycle vehicle-type-icon"></i> Bike</option>
-                                <option value="Truck"><i class="fas fa-truck vehicle-type-icon"></i> Truck</option>
+                                <option value="Car" class="translate" data-key="car">Car</option>
+                                <option value="Bike" class="translate" data-key="bike">Bike</option>
+                                <option value="Truck" class="translate" data-key="truck">Truck</option>
                             </select>
                         </div>
                         <div class="d-grid gap-2">
                             <button type="button" class="btn btn-primary" onclick="parkVehicle()">
-                                <i class="fas fa-car"></i> Park Vehicle
+                                <i class="fas fa-car"></i> <span class="translate" data-key="parkVehicle">Park Vehicle</span>
                             </button>
                             <button type="button" class="btn btn-danger" onclick="exitVehicle()">
-                                <i class="fas fa-sign-out-alt"></i> Exit Vehicle
+                                <i class="fas fa-sign-out-alt"></i> <span class="translate" data-key="exitVehicle">Exit Vehicle</span>
                             </button>
                         </div>
                     </form>
@@ -612,15 +727,15 @@
             
             <div class="col-md-8">
                 <div class="card p-4">
-                    <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Current Parking Status</h3>
+                    <h3 class="card-title"><i class="fas fa-clipboard-list"></i> <span class="translate" data-key="parkingStatus">Current Parking Status</span></h3>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Vehicle Number</th>
-                                    <th>Type</th>
-                                    <th>Entry Time</th>
-                                    <th>Status</th>
+                                    <th class="translate" data-key="vehicleNumber">Vehicle Number</th>
+                                    <th class="translate" data-key="type">Type</th>
+                                    <th class="translate" data-key="entryTime">Entry Time</th>
+                                    <th class="translate" data-key="status">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="parkingTable">
@@ -647,20 +762,76 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialize toast
-        const toast = new bootstrap.Toast(document.getElementById('toast'));
-        
-        // Show notification
+        const translations = {
+            en: {
+                title: "Car Parking System",
+                subtitle: "Manage your parking lot efficiently with our advanced system",
+                parkExitTitle: "Park/Exit Vehicle",
+                vehicleNumber: "Vehicle Number",
+                vehicleType: "Vehicle Type",
+                car: "Car",
+                bike: "Bike",
+                truck: "Truck",
+                parkVehicle: "Park Vehicle",
+                exitVehicle: "Exit Vehicle",
+                parkingStatus: "Current Parking Status",
+                type: "Type",
+                entryTime: "Entry Time",
+                status: "Status",
+                notification: "Notification",
+                enterVehicleNumber: "Please enter vehicle number",
+                errorParking: "Error parking vehicle",
+                errorExiting: "Error exiting vehicle",
+                parked: "Parked"
+            },
+            ar: {
+                title: "نظام مواقف السيارات",
+                subtitle: "إدارة موقف سياراتك بكفاءة مع نظامنا المتقدم",
+                parkExitTitle: "إيقاف/خروج المركبة",
+                vehicleNumber: "رقم المركبة",
+                vehicleType: "نوع المركبة",
+                car: "سيارة",
+                bike: "دراجة نارية",
+                truck: "شاحنة",
+                parkVehicle: "إيقاف المركبة",
+                exitVehicle: "خروج المركبة",
+                parkingStatus: "حالة المواقف الحالية",
+                type: "النوع",
+                entryTime: "وقت الدخول",
+                status: "الحالة",
+                notification: "إشعار",
+                enterVehicleNumber: "الرجاء إدخال رقم المركبة",
+                errorParking: "خطأ في إيقاف المركبة",
+                errorExiting: "خطأ في خروج المركبة",
+                parked: "متوقفة"
+            }
+        };
+
+        let currentLang = localStorage.getItem('language') || 'en';
+        document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', currentLang);
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        let toast;
+
         function showNotification(message, type = 'success') {
             const toastBody = document.querySelector('.toast-body');
-            const toast = document.getElementById('toast');
+            const toastElement = document.getElementById('toast');
+            const notificationTitle = document.querySelector('.toast .me-auto');
             
-            toastBody.textContent = message;
-            toast.className = `toast ${type}`;
-            bootstrap.Toast.getInstance(toast).show();
+            toastBody.textContent = translations[currentLang][message] || message;
+            notificationTitle.textContent = translations[currentLang].notification;
+            toastElement.className = `toast ${type}`;
+            
+            if (!toast) {
+                toast = new bootstrap.Toast(toastElement);
+            }
+            toast.show();
         }
-        
-        // Update parking status
+
         function updateParkingStatus() {
             fetch('/api/status')
                 .then(response => response.json())
@@ -673,36 +844,36 @@
                         const icon = vehicle.vehicle_type === 'Car' ? 'fa-car' : 
                                     vehicle.vehicle_type === 'Bike' ? 'fa-motorcycle' : 'fa-truck';
                         
-                        // Format the date
                         const entryDate = new Date(vehicle.entry_time);
-                        const formattedDate = entryDate.toLocaleString('en-US', {
+                        const formattedDate = entryDate.toLocaleString(currentLang === 'ar' ? 'ar-SA' : 'en-US', {
                             weekday: 'long',
                             hour: 'numeric',
                             minute: 'numeric',
                             hour12: true
                         });
                         
+                        const vehicleTypeTranslated = translations[currentLang][vehicle.vehicle_type.toLowerCase()];
+                        
                         row.innerHTML = `
-                            <td data-label="Vehicle Number">${vehicle.vehicle_number}</td>
-                            <td data-label="Type"><i class="fas ${icon} vehicle-type-icon"></i> ${vehicle.vehicle_type}</td>
-                            <td data-label="Entry Time">${formattedDate}</td>
-                            <td data-label="Status"><span class="status-badge status-parked">Parked</span></td>
+                            <td data-label="${translations[currentLang].vehicleNumber}">${vehicle.vehicle_number}</td>
+                            <td data-label="${translations[currentLang].type}"><i class="fas ${icon} vehicle-type-icon"></i> ${vehicleTypeTranslated}</td>
+                            <td data-label="${translations[currentLang].entryTime}">${formattedDate}</td>
+                            <td data-label="${translations[currentLang].status}"><span class="status-badge status-parked">${translations[currentLang].parked}</span></td>
                         `;
                         table.appendChild(row);
                     });
                 })
                 .catch(error => {
-                    showNotification('Error fetching parking status', 'error');
+                    showNotification('errorFetching', 'error');
                 });
         }
-        
-        // Park vehicle
+
         function parkVehicle() {
             const vehicleNumber = document.getElementById('vehicleNumber').value;
             const vehicleType = document.getElementById('vehicleType').value;
             
             if (!vehicleNumber) {
-                showNotification('Please enter vehicle number', 'error');
+                showNotification(translations[currentLang].enterVehicleNumber, 'error');
                 return;
             }
             
@@ -727,16 +898,15 @@
                 }
             })
             .catch(error => {
-                showNotification('Error parking vehicle', 'error');
+                showNotification(translations[currentLang].errorParking, 'error');
             });
         }
-        
-        // Exit vehicle
+
         function exitVehicle() {
             const vehicleNumber = document.getElementById('vehicleNumber').value;
             
             if (!vehicleNumber) {
-                showNotification('Please enter vehicle number', 'error');
+                showNotification(translations[currentLang].enterVehicleNumber, 'error');
                 return;
             }
             
@@ -760,36 +930,9 @@
                 }
             })
             .catch(error => {
-                showNotification('Error exiting vehicle', 'error');
+                showNotification(translations[currentLang].errorExiting, 'error');
             });
         }
-        
-        // Update status every 5 seconds
-        setInterval(updateParkingStatus, 5000);
-        
-        // Initial status update
-        updateParkingStatus();
-        
-        // Add 3D effect to cards on mouse move
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-            });
-        });
 
         function toggleTheme() {
             const html = document.documentElement;
@@ -806,22 +949,68 @@
                 icon.classList.add('fa-sun');
             }
             
-            // Save theme preference
             localStorage.setItem('theme', html.getAttribute('data-theme'));
         }
 
-        // Load saved theme preference
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('language', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', currentLang);
+            document.querySelector('.lang-text').textContent = currentLang === 'en' ? 'عربي' : 'English';
+            updateTranslations();
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('.translate').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (key && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+            
+            document.getElementById('vehicleNumber').placeholder = translations[currentLang].vehicleNumber;
+        }
+
+        // Main initialization when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            const html = document.documentElement;
+            // Initialize theme icon
             const themeToggle = document.querySelector('.theme-toggle');
             const icon = themeToggle.querySelector('i');
-            
-            html.setAttribute('data-theme', savedTheme);
             if (savedTheme === 'dark') {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
+
+            // Initialize translations
+            updateTranslations();
+            
+            // Initialize toast
+            toast = new bootstrap.Toast(document.getElementById('toast'));
+            
+            // Initial parking status update
+            updateParkingStatus();
+            
+            // 3D card effect
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                });
+            });
         });
     </script>
 </body>
