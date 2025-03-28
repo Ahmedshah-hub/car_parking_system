@@ -224,65 +224,91 @@
         }
         
         .toggle-container {
-            position: fixed;
+            position: absolute;
             top: 1rem;
             right: 1rem;
             z-index: 1000;
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            background: var(--card-bg);
-            padding: 0.75rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            border: 1px solid var(--border-color);
+            gap: 0.75rem;
+            background: transparent;
+            padding: 0.5rem;
+            border-radius: 20px;
             backdrop-filter: blur(10px);
-            width: 160px;
+            direction: ltr;
         }
 
         .theme-toggle, .lang-toggle {
             position: relative;
-            background: var(--dark-bg);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 0.6rem 1rem;
-            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
             cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            width: 100%;
-            justify-content: flex-start;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            direction: ltr;
+            white-space: nowrap;
+        }
+
+        .theme-toggle {
+            margin-right: 0.75rem;
+        }
+
+        .lang-toggle {
+            margin-left: 0;
+        }
+
+        :root[dir="rtl"] .toggle-container {
+            right: 1rem;
+            left: auto;
+            direction: ltr;
+        }
+
+        :root[dir="rtl"] .theme-toggle,
+        :root[dir="rtl"] .lang-toggle {
+            direction: ltr;
+        }
+
+        :root[dir="ltr"] .toggle-container {
+            right: 1rem;
+            left: auto;
+            direction: ltr;
+        }
+
+        :root[dir="ltr"] .theme-toggle,
+        :root[dir="ltr"] .lang-toggle {
+            direction: ltr;
         }
 
         .theme-toggle:hover, .lang-toggle:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px var(--shadow-color);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .theme-toggle i, .lang-toggle i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i, .lang-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle.active, .lang-toggle.active {
             background: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
         }
 
-        .theme-toggle i, .lang-toggle i {
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            width: 24px;
-            text-align: center;
-        }
-
-        .theme-toggle:hover i, .lang-toggle:hover i {
-            transform: scale(1.1) rotate(5deg);
-        }
-
- 
-        :root[dir="rtl"] .theme-toggle, 
+        /* :root[dir="rtl"] .theme-toggle, 
         :root[dir="rtl"] .lang-toggle {
             flex-direction: row-reverse;
-        }
+        } */
 
         /* Add responsive styles for toggle buttons */
         @media (max-width: 768px) {
@@ -680,19 +706,22 @@
     </style>
 </head>
 <body>
-    <div class="toggle-container">
-        <button class="theme-toggle" onclick="toggleTheme()">
-            <i class="fas fa-sun"></i>
-            <span class="theme-text">Toggle Theme</span>
-        </button>
-        <button class="lang-toggle" onclick="toggleLanguage()">
-            <i class="fas fa-language"></i>
-            <span class="lang-text">عربي</span>
-        </button>
-    </div>
     <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-parking parking-icon"></i> <span class="translate" data-key="title">Car Parking System</span></h1>
+        <div class="header text-center py-4 mb-4">
+            <div class="toggle-container">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+                <button class="lang-toggle" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i>
+                    <span>EN</span>
+                </button>
+            </div>
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-parking parking-icon"></i>
+                <span class="translate" data-key="title">Car Parking System</span>
+            </h1>
             <p class="lead translate" data-key="subtitle">Manage your parking lot efficiently with our advanced system</p>
         </div>
         
@@ -941,12 +970,12 @@
             
             if (html.getAttribute('data-theme') === 'light') {
                 html.setAttribute('data-theme', 'dark');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            } else {
-                html.setAttribute('data-theme', 'light');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
             }
             
             localStorage.setItem('theme', html.getAttribute('data-theme'));
@@ -957,7 +986,7 @@
             localStorage.setItem('language', currentLang);
             document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             document.documentElement.setAttribute('lang', currentLang);
-            document.querySelector('.lang-text').textContent = currentLang === 'en' ? 'عربي' : 'English';
+            document.querySelector('.lang-toggle span').textContent = currentLang === 'en' ? 'عربي' : 'EN';
             updateTranslations();
         }
 
@@ -978,8 +1007,8 @@
             const themeToggle = document.querySelector('.theme-toggle');
             const icon = themeToggle.querySelector('i');
             if (savedTheme === 'dark') {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
             }
 
             // Initialize translations
