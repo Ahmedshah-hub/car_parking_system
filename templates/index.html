@@ -6,6 +6,8 @@
     <title>Car Parking System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
     <style>
         :root[data-theme="light"] {
             --primary-color: #3b82f6;
@@ -45,6 +47,8 @@
             perspective: 1000px;
             padding: 1rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
         }
         
         .container {
@@ -703,9 +707,195 @@
             left: 0;
             right: auto;
         }
+
+        /* Modern Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--dark-bg);
+        }
+
+        .animated-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            mix-blend-mode: multiply;
+        }
+
+        :root[data-theme="light"] .animated-shape {
+            filter: blur(30px);
+            opacity: 0.4;
+            mix-blend-mode: normal;
+        }
+
+        :root[data-theme="dark"] .animated-shape {
+            filter: blur(40px);
+            opacity: 0.5;
+            mix-blend-mode: screen;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-color);
+            top: -100px;
+            left: -100px;
+        }
+
+        :root[data-theme="dark"] .shape-1 {
+            background: linear-gradient(45deg, #60a5fa, #3b82f6, #2563eb);
+            box-shadow: 0 0 50px rgba(96, 165, 250, 0.4);
+        }
+
+        :root[data-theme="light"] .shape-1 {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa, #93c5fd);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.3);
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary-color);
+            top: 50%;
+            right: -50px;
+        }
+
+        :root[data-theme="dark"] .shape-2 {
+            background: linear-gradient(45deg, #4ade80, #22c55e, #16a34a);
+            box-shadow: 0 0 50px rgba(74, 222, 128, 0.4);
+        }
+
+        :root[data-theme="light"] .shape-2 {
+            background: linear-gradient(45deg, #22c55e, #4ade80, #86efac);
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.3);
+        }
+
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color);
+            bottom: -50px;
+            left: 50%;
+        }
+
+        :root[data-theme="dark"] .shape-3 {
+            background: linear-gradient(45deg, #fb923c, #f97316, #ea580c);
+            box-shadow: 0 0 50px rgba(251, 146, 60, 0.4);
+        }
+
+        :root[data-theme="light"] .shape-3 {
+            background: linear-gradient(45deg, #f97316, #fb923c, #fed7aa);
+            box-shadow: 0 0 50px rgba(249, 115, 22, 0.3);
+        }
+
+        .interactive-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.4;
+            filter: blur(1px);
+        }
+
+        :root[data-theme="dark"] .particle {
+            opacity: 0.6;
+            filter: blur(0.5px);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+        }
+
+        :root[data-theme="light"] .particle {
+            opacity: 0.6;
+            filter: blur(0.5px);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .glow-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--dark-bg) 70%);
+            z-index: -1;
+            opacity: 0.8;
+            mix-blend-mode: multiply;
+        }
+
+        :root[data-theme="dark"] .glow-effect {
+            opacity: 0.7;
+            mix-blend-mode: multiply;
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.2) 70%);
+        }
+
+        :root[data-theme="light"] .glow-effect {
+            opacity: 0.3;
+            mix-blend-mode: normal;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 70%);
+        }
+
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="dark"] .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        :root[data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="dark"] .header {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        :root[data-theme="light"] .header {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
+    <!-- Modern Animated Background -->
+    <div class="animated-bg">
+        <div class="animated-shape shape-1"></div>
+        <div class="animated-shape shape-2"></div>
+        <div class="animated-shape shape-3"></div>
+    </div>
+    <div class="glow-effect"></div>
+    <div class="interactive-particles"></div>
+
     <div class="container">
         <div class="header text-center py-4 mb-4">
             <div class="toggle-container">
@@ -979,6 +1169,11 @@
             }
             
             localStorage.setItem('theme', html.getAttribute('data-theme'));
+            
+            // Reinitialize animations for the new theme
+            const particlesContainer = document.querySelector('.interactive-particles');
+            particlesContainer.innerHTML = '';
+            setupAnimations();
         }
 
         function toggleLanguage() {
@@ -1001,8 +1196,97 @@
             document.getElementById('vehicleNumber').placeholder = translations[currentLang].vehicleNumber;
         }
 
+        // Modern Animation Setup
+        function setupAnimations() {
+            // Animate shapes with different speeds for light/dark theme
+            const isLightTheme = document.documentElement.getAttribute('data-theme') === 'light';
+            const baseDuration = isLightTheme ? 4 : 6;
+            
+            gsap.to('.shape-1', {
+                x: 'random(-150, 150)',
+                y: 'random(-150, 150)',
+                rotation: 'random(-180, 180)',
+                duration: baseDuration,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power2.inOut'
+            });
+
+            gsap.to('.shape-2', {
+                x: 'random(-200, 200)',
+                y: 'random(-200, 200)',
+                rotation: 'random(-180, 180)',
+                duration: baseDuration + 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power2.inOut'
+            });
+
+            gsap.to('.shape-3', {
+                x: 'random(-250, 250)',
+                y: 'random(-250, 250)',
+                rotation: 'random(-180, 180)',
+                duration: baseDuration + 4,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power2.inOut'
+            });
+
+            // Create interactive particles with adjusted count for light/dark theme
+            const particlesContainer = document.querySelector('.interactive-particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particlesContainer.appendChild(particle);
+
+                // Animate each particle with adjusted parameters
+                gsap.to(particle, {
+                    x: 'random(-300, 300)',
+                    y: 'random(-300, 300)',
+                    scale: 'random(0.5, 2)',
+                    opacity: 'random(0.3, 0.8)',
+                    duration: 'random(2, 4)',
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'power2.inOut'
+                });
+            }
+
+            // Add mouse interaction with adjusted sensitivity
+            document.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const sensitivity = 0.1;
+
+                gsap.to('.shape-1', {
+                    x: (mouseX - window.innerWidth / 2) * sensitivity,
+                    y: (mouseY - window.innerHeight / 2) * sensitivity,
+                    duration: 0.5
+                });
+
+                gsap.to('.shape-2', {
+                    x: (mouseX - window.innerWidth / 2) * sensitivity * 1.5,
+                    y: (mouseY - window.innerHeight / 2) * sensitivity * 1.5,
+                    duration: 0.5
+                });
+
+                gsap.to('.shape-3', {
+                    x: (mouseX - window.innerWidth / 2) * sensitivity * 2,
+                    y: (mouseY - window.innerHeight / 2) * sensitivity * 2,
+                    duration: 0.5
+                });
+            });
+        }
+
         // Main initialization when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize animations
+            setupAnimations();
+            
             // Initialize theme icon
             const themeToggle = document.querySelector('.theme-toggle');
             const icon = themeToggle.querySelector('i');
