@@ -820,11 +820,13 @@
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         :root[data-theme="light"] .card {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
@@ -832,12 +834,96 @@
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         :root[data-theme="light"] .header {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        :root[data-theme="light"] .table {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .table thead th {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .table tbody tr {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        :root[data-theme="light"] .table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        :root[data-theme="light"] .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        :root[data-theme="light"] .btn {
+            background: rgba(59, 130, 246, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .btn-danger {
+            background: rgba(249, 115, 22, 0.8);
+        }
+
+        :root[data-theme="light"] .btn:hover {
+            background: rgba(59, 130, 246, 1);
+        }
+
+        :root[data-theme="light"] .btn-danger:hover {
+            background: rgba(249, 115, 22, 1);
+        }
+
+        :root[data-theme="light"] .toast {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .toast-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .theme-toggle,
+        :root[data-theme="light"] .lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        :root[data-theme="light"] .theme-toggle:hover,
+        :root[data-theme="light"] .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        :root[data-theme="light"] .theme-toggle.active,
+        :root[data-theme="light"] .lang-toggle.active {
+            background: rgba(59, 130, 246, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         :root[data-theme="dark"] .animated-shape {
