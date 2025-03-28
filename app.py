@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'YUADbOb2Wl0aeJTMfXtoOZhP   ')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///parking.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,6 +22,10 @@ with app.app_context():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.static_folder, 'favicon.ico')
 
 @app.route('/api/park', methods=['POST'])
 def park_vehicle():
