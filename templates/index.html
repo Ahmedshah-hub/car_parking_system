@@ -734,23 +734,12 @@
             mix-blend-mode: normal;
         }
 
-        :root[data-theme="dark"] .animated-shape {
-            filter: blur(40px);
-            opacity: 0.5;
-            mix-blend-mode: screen;
-        }
-
         .shape-1 {
             width: 400px;
             height: 400px;
             background: var(--primary-color);
             top: -100px;
             left: -100px;
-        }
-
-        :root[data-theme="dark"] .shape-1 {
-            background: linear-gradient(45deg, #60a5fa, #3b82f6, #2563eb);
-            box-shadow: 0 0 50px rgba(96, 165, 250, 0.4);
         }
 
         :root[data-theme="light"] .shape-1 {
@@ -766,11 +755,6 @@
             right: -50px;
         }
 
-        :root[data-theme="dark"] .shape-2 {
-            background: linear-gradient(45deg, #4ade80, #22c55e, #16a34a);
-            box-shadow: 0 0 50px rgba(74, 222, 128, 0.4);
-        }
-
         :root[data-theme="light"] .shape-2 {
             background: linear-gradient(45deg, #22c55e, #4ade80, #86efac);
             box-shadow: 0 0 50px rgba(34, 197, 94, 0.3);
@@ -782,11 +766,6 @@
             background: var(--accent-color);
             bottom: -50px;
             left: 50%;
-        }
-
-        :root[data-theme="dark"] .shape-3 {
-            background: linear-gradient(45deg, #fb923c, #f97316, #ea580c);
-            box-shadow: 0 0 50px rgba(251, 146, 60, 0.4);
         }
 
         :root[data-theme="light"] .shape-3 {
@@ -813,12 +792,6 @@
             filter: blur(1px);
         }
 
-        :root[data-theme="dark"] .particle {
-            opacity: 0.6;
-            filter: blur(0.5px);
-            box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
-        }
-
         :root[data-theme="light"] .particle {
             opacity: 0.6;
             filter: blur(0.5px);
@@ -837,12 +810,6 @@
             mix-blend-mode: multiply;
         }
 
-        :root[data-theme="dark"] .glow-effect {
-            opacity: 0.7;
-            mix-blend-mode: multiply;
-            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.2) 70%);
-        }
-
         :root[data-theme="light"] .glow-effect {
             opacity: 0.3;
             mix-blend-mode: normal;
@@ -853,12 +820,6 @@
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        :root[data-theme="dark"] .card {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         :root[data-theme="light"] .card {
@@ -873,16 +834,43 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        :root[data-theme="dark"] .header {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
         :root[data-theme="light"] .header {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        :root[data-theme="dark"] .animated-shape {
+            filter: blur(40px);
+            opacity: 0.4;
+            mix-blend-mode: screen;
+        }
+
+        :root[data-theme="dark"] .shape-1 {
+            background: linear-gradient(45deg, #60a5fa, #93c5fd, #bfdbfe);
+            box-shadow: 0 0 50px rgba(96, 165, 250, 0.3);
+        }
+
+        :root[data-theme="dark"] .shape-2 {
+            background: linear-gradient(45deg, #4ade80, #86efac, #bbf7d0);
+            box-shadow: 0 0 50px rgba(74, 222, 128, 0.3);
+        }
+
+        :root[data-theme="dark"] .shape-3 {
+            background: linear-gradient(45deg, #fb923c, #fed7aa, #ffedd5);
+            box-shadow: 0 0 50px rgba(251, 146, 60, 0.3);
+        }
+
+        :root[data-theme="dark"] .particle {
+            opacity: 0.6;
+            filter: blur(0.5px);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+
+        :root[data-theme="dark"] .glow-effect {
+            opacity: 0.3;
+            mix-blend-mode: normal;
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.2) 70%);
         }
     </style>
 </head>
@@ -1200,7 +1188,7 @@
         function setupAnimations() {
             // Animate shapes with different speeds for light/dark theme
             const isLightTheme = document.documentElement.getAttribute('data-theme') === 'light';
-            const baseDuration = isLightTheme ? 4 : 6;
+            const baseDuration = 4; // Same speed for both themes
             
             gsap.to('.shape-1', {
                 x: 'random(-150, 150)',
@@ -1232,9 +1220,9 @@
                 ease: 'power2.inOut'
             });
 
-            // Create interactive particles with adjusted count for light/dark theme
+            // Create interactive particles
             const particlesContainer = document.querySelector('.interactive-particles');
-            const particleCount = 30;
+            const particleCount = 30; // Same count for both themes
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1243,7 +1231,7 @@
                 particle.style.top = `${Math.random() * 100}%`;
                 particlesContainer.appendChild(particle);
 
-                // Animate each particle with adjusted parameters
+                // Animate each particle
                 gsap.to(particle, {
                     x: 'random(-300, 300)',
                     y: 'random(-300, 300)',
@@ -1256,11 +1244,11 @@
                 });
             }
 
-            // Add mouse interaction with adjusted sensitivity
+            // Add mouse interaction
             document.addEventListener('mousemove', (e) => {
                 const mouseX = e.clientX;
                 const mouseY = e.clientY;
-                const sensitivity = 0.1;
+                const sensitivity = 0.1; // Same sensitivity for both themes
 
                 gsap.to('.shape-1', {
                     x: (mouseX - window.innerWidth / 2) * sensitivity,
