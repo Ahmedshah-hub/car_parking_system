@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vehicle_number = db.Column(db.String(20), unique=True, nullable=False)
-    vehicle_type = db.Column(db.String(20), nullable=False)
+    vehicle_type = db.Column(db.String(20), nullable=False) 
     entry_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 with app.app_context():
